@@ -1,0 +1,73 @@
+class Account:
+  account_id = None
+  owner_id = None
+  balance = None
+
+  def __init__(self, ):
+    self.owner_id = Operation.user_ID
+    self.account_id =
+    self.balance = 0.0
+
+  def Withdraw(self, amount):
+    if (self.balance >= amount
+            && Bank.limitations.withdraw_limit >= amount):
+      self.balance -= amount
+    else:
+      print ("Невозможно снять деньги")
+
+  def Transfer(self, to_account_id , amount):  #проверить на возможность снятия (попробовать орг через пополн и снятие)
+    trans_acc = Account(to_account_id)
+    trans_acc.balance += amount
+    self.balance -= amount
+
+  def Top_Up(self, amount):
+    self.balance += amount
+
+  def Close(self): #разные типы закрытия
+    self.balance = 0.0
+    self.account_id = None
+
+  def Find(self):
+    pass
+
+class Deposit(Account):
+  def __init__(self, validity_period, account_id,
+  owner_id,
+  balance):
+    self.validity_period = validity_period
+    super().__init__(account_id,
+  owner_id,
+  balance)
+  def Withdraw(self, amount):
+    pass
+  def Transfer(self, to_account_id):
+    pass
+
+class Credit(Account):
+  limit = None
+  commission = None
+  def __init__(self, limit, commission, account_id,
+               owner_id,
+               balance):
+    self.limit = limit
+    self.commission = commission
+    super().__init__(account_id,
+                     owner_id,
+                     balance)
+
+  def Withdraw(self, amount): #комиссия только при минусе
+    if (self.balance >= amount + self.commission
+            && Bank.limitations.withdraw_limit >=
+            amount + self.commission
+    ):
+      self.balance -= amount + self.commission
+    else:
+      print ("Невозможно снять деньги")
+
+  def Transfer(self, to_account_id, amount): #было достаточно средств для снятия
+    trans_acc = Account(to_account_id)
+    trans_acc.balance += amount
+    self.balance -= amount + self.commission
+
+class Debit(Account):
+  pass
